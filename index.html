@@ -7,6 +7,30 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- please allow me to have some extra time working on this -->
+     <div id="disp"></div>
+    <form>
+    <p>
+        <label for="Train Name">Train Name</label>
+        <input type="text" name="trainName" id="trainName">
+    </p>
+    <p>
+        <label for="Destination">Destination</label>
+        <input type="text" name="destination" id="destination">
+    </p>
+    <p>
+        <label for="First Train Time">First Train Time</label>
+        <input type="time" name="ftrain" id="ftrain">
+    </p>
+    <p>
+        <label for="Frequency">Frequency</label>
+        <input type="number" name="frequency" id="frequency">
+    </p>
+    <button id="submit">Submit</button>
+</form>
+
+<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+<script src="../TrainTime/app.js"></script>
+
 </body>
 </html>
