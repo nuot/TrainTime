@@ -9,17 +9,18 @@ var config = {
 firebase.initializeApp(config);
 
 let db = firebase.firestore()
-
 let trainname,
-    destination,
-    firstTrain,
-    frequency
+destination,
+firstTrain,
+frequency,
+nowTime
+
+
+
 
 document.querySelector('#submit').addEventListener('click',
     e => {
         e.preventDefault()
-
-
 
         let id = db.collection('trainschedule').doc().id
 
@@ -29,7 +30,7 @@ document.querySelector('#submit').addEventListener('click',
             firstTrain: document.querySelector('#ftrain').value,
             frequency: document.querySelector('#frequency').value
         })
-
+     
         document.querySelector('#trainName').value = ''
         document.querySelector('#destination').value = ''
         document.querySelector('#ftrain').value = ''
@@ -39,20 +40,43 @@ document.querySelector('#submit').addEventListener('click',
 db.collection('trainschedule').onSnapshot(({ docs }) => {
     document.querySelector('#disp'), innerHTML = ''
     docs.forEach(doc => {
-        console.log(doc.data())
+
         let { trainname, destination, firstTrain, frequency } = doc.data()
+
+        let nowTime = moment()
+        console.log(nowTime)
+        let firTrainTime = moment(firstTrain, "HH:mm")
+        console.log(firTrainTime)
+        let timedifference = nowTime.diff(firTrainTime, 'minutes')
+        console.log(timedifference)
+        let timeLeft = timedifference % frequency
+        console.log(timeLeft)
+        let minutesAway = frequency - timeLeft
+        console.log(minutesAway)
+        let nextArrial = moment().add(minutesAway, 'minutes').format('HH:mm')
+        console.log(nextArrial)
+
+        
     
         let newtrain = document.createElement('tr')
         newtrain.innerHTML = `
         <td>Train Name: <br>${trainname}</br></td>
         <td>Destination: <br>${destination}</br></td>
         <td>Frequency(min): <br>${frequency}</br></td>
-        <td>Next Arrival:</td>
-        <td>Minutes Away: </td>
+        <td>First Train: <br>${firstTrain}</br></td>
+        <td>Next Arrival: <br>${nextArrial}</br></td>
+        <td>Minutes Away: <br>${minutesAway}</br></td>
         `
         document.querySelector('#disp').append(newtrain)
     })
 })
+
+
+
+// let timePass = nowTime.diff(firstTrainTime,'minutes')
+// let stops= timePass/frequency
+// let nextArrial = stops * frequency + firstTrain
+// let minutesAway = moment().from(nextArrial)
 
 // const now = moment().format("HH:MM")
 // const startTime = moment(firstTrain, "HH:MM")
